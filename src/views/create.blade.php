@@ -61,7 +61,7 @@
 						</div>		
 
 						<div class="form-group m-t-40 row {{ $errors->has('amount') ? ' error' : '' }}">
-	                        <label for="example-text-input" class="col-2 col-form-label">Сума</label>
+	                        <label for="example-text-input" class="col-2 col-form-label">Сумма</label>
 	                        <div class="col-10">
 	                            <input class="form-control" type="number" step="any" name="amount" value="{{ old('amount') }}" id="example-text-input">
 	                            @if ($errors->has('amount'))
