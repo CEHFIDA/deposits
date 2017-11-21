@@ -6,6 +6,9 @@
         var route = '{{ route('home') }}';
         var message = 'Вы точно хотите удалить данное сообщение?';
     </script>
+    @push('display')
+        <a href="{{route('AdminDepositsCreate')}}" class="btn hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Создать депозит</a>
+    @endpush
     <div class="row">
         <!-- Column -->
         <div class="col-12">

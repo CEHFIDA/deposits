@@ -6,6 +6,9 @@
         var route = '{{ route('home') }}';
         var message = 'Вы точно хотите удалить данное сообщение?';
     </script>
+    @push('display')
+        <a href="{{route('AdminDepositsCreate')}}" class="btn hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Создать депозит</a>
+    @endpush
 	<div class="row">
 	    <div class="col-sm-12">
 	        <div class="card">
@@ -73,7 +76,7 @@
 	                    <div class="form-group m-t-40 row {{ $errors->has('transaction') ? ' error' : '' }}">
 	                        <label for="example-text-input" class="col-2 col-form-label">Транзакция</label>
 	                        <div class="col-10">
-	                            <input class="form-control" type="text" name="transaction" value="{{ old('transaction', 'by admin') }}" id="example-text-input">
+	                            <input class="form-control" type="text" name="transaction" value="{{ old('transaction', 'by-admin_'.\Carbon\Carbon::now()) }}" id="example-text-input">
 	                            @if ($errors->has('transaction'))
 									<div class="help-block"><ul role="alert"><li>{{ $errors->first('transaction') }}</li></ul></div>
 								@endif		                            

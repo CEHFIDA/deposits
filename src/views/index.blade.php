@@ -6,14 +6,12 @@
         var route = '{{ route('home') }}';
         var message = 'Вы точно хотите удалить данное сообщение?';
     </script>
+    @push('display')
+        <a href="{{route('AdminDepositsCreate')}}" class="btn hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Создать депозит</a>
+    @endpush
     <div class="row">
         <!-- Column -->
         <div class="col-12">
-            <div class="row m-b-10">
-                <div class="col-md-12">
-                    <a href="{{route('AdminDepositsCreate')}}" class="btn pull-right hidden-sm-down btn-success"><i class="mdi mdi-plus-circle"></i> Создать депозит</a>
-                </div>
-            </div>
             <!-- Row -->
             <div class="row">
                 @if(count($deposits) > 0)
