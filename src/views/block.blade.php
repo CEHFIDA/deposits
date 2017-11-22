@@ -1,5 +1,5 @@
 @push('scripts')
-    <script src="http://localhost:3001/vendor/adminamazing/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="{{ asset('vendor/adminamazing/assets/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
     <script>
         $(function(){
             var sparklineLogin = function() { 
