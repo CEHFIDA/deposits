@@ -11,8 +11,36 @@ use App\Libraries\DepositProfit\DepositProfit;
 use App\Models\Payment_System;
 use App\Models\Deposits_Plan;
 use App\Libraries\Deposit as DepositLib;
+use Carbon\Carbon;
 class DepositsController extends Controller
 {
+    function __construct(){
+        $days = 8;
+        $deposits = Deposit::selectRaw('DATE_FORMAT(`created_at`, \'%Y-%m-%d\') as groupDate, COUNT(`id`) as CntByDate')->orderBy('groupDate', 'desc')->limit($days-1)->groupBy('groupDate')->get();
+        $realDataDeposits = [];
+        foreach($deposits as $row){
+            $realDataDeposits[$row->groupDate] = $row->CntByDate;
+        }
+
+        $weekago = Carbon::now()->subDays($days);
+        $null_array = [];
+        while ($days > 0) {
+            $weekago->addDays(1);
+            $result = strtolower($weekago->format('Y-m-d'));
+            $null_array[$result] = 0;
+            $days--;
+        }
+        $deposits_by_date = array_merge($null_array, $realDataDeposits);
+        ksort($deposits_by_date);
+        $imploade_data = implode(", ", $deposits_by_date);
+        $deposits_today = $deposits_by_date[Carbon::now()->format('Y-m-d')];
+        $deposits_yesterday = $deposits_by_date[Carbon::now()->subDays(1)->format('Y-m-d')];
+        \Blocks::register('Deposit', function() use ($deposits_by_date, $imploade_data, $deposits_today, $deposits_yesterday){
+            return view('deposits::block')->with(
+                compact('deposits_by_date', 'imploade_data', 'deposits_today', 'deposits_yesterday')
+            )->render();
+        });
+    }
     /**
      * Index
      * @return view home with feedback messages
