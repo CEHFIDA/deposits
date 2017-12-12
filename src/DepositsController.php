@@ -83,7 +83,7 @@ class DepositsController extends Controller
             ->addSelect('users__histories.*')
             ->where('type', 'ACCRUALS')
             ->where('status', 'completed')
-            ->where('users__histories.data_info->deposit_id', $deposit)
+            ->where('users__histories.data_info->deposit_id', (int)$deposit)
             ->leftJoin('payment__systems', 'payment__systems.id', '=', 'users__histories.payment_system')
             ->addSelect('payment__systems.currency')
             ->leftJoin('users', 'users.id', '=', 'users__histories.user_id')            
