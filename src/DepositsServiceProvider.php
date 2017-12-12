@@ -17,7 +17,9 @@ class DepositsServiceProvider extends ServiceProvider
         include __DIR__.'/routes.php';
         $this->app->make('Selfreliance\Deposits\DepositsController');
         $this->loadViewsFrom(__DIR__.'/views', 'deposits');
-        
+        $this->publishes([
+            __DIR__ . '/config/deposits.php' => config_path('deposits.php')
+        ], 'config');
     }
 
     /**
