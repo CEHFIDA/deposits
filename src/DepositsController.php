@@ -10,8 +10,8 @@ use App\Models\Users_History;
 use App\Libraries\DepositProfit\DepositProfit;
 use App\Models\Payment_System;
 use App\Models\Deposits_Plan;
-use App\Libraries\Deposit as DepositLib;
 use Carbon\Carbon;
+use DepositService;
 class DepositsController extends Controller
 {
     public function block(){
@@ -112,16 +112,15 @@ class DepositsController extends Controller
         ]);
 
         try{
-            $res = (new DepositLib)
-                ->plan($request->input('plan_id'))
+            $result = DepositService::
+                user(User::where('email', $request->input('user_email'))->value('id'))
                 ->amount($request->input('amount'))
-                ->user(User::where('email', $request->input('user_email'))->value('id'))
                 ->payment_system($request->input('payment_system'))
-                ->make_purchase();
-
-            $res->payment_id($res->history->id)
+                ->plan($request->input('plan_id'))
+                ->make_purchase()
                 ->transaction($request->input('transaction'))
-                ->create();
+                ->create();         
+
             \Session::flash('success','Депозит успешно создан');
             return redirect()->back();
         }catch(\App\Exceptions\NotFoudDepositPlan $e){
