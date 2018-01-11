@@ -1,7 +1,7 @@
 {
   "name": "selfreliance/deposits",
   "type": "library",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Deposits for laravel",
   "keywords": ["laravel"],
   "homepage": "https://github.com/selfrelianceme/deposits",

@@ -12,6 +12,8 @@ use App\Models\Payment_System;
 use App\Models\Deposits_Plan;
 use Carbon\Carbon;
 use DepositService;
+use Illuminate\Cookie\CookieJar;
+use Cookie;
 class DepositsController extends Controller
 {
     public function block(){
@@ -43,8 +45,18 @@ class DepositsController extends Controller
      * Index
      * @return view home with feedback messages
     */    
-    public function index()
+    public function index(Request $request, CookieJar $cookieJar)
     {
+        $view = "table";
+        if($request->input('view')){
+            $view = $request->input('view');
+            $cookieJar->queue(cookie('view', $view, 45000));
+        }else{
+            if(Cookie::get('view')){
+                $view = Cookie::get('view');
+            }
+        }
+
         $deposits = Deposit::orderBy('id', 'desc')
             ->leftJoin('deposits__plans', 'deposits__plans.id', '=', 'deposits.plan_id')
             ->leftJoin('payment__systems', 'payment__systems.id', '=', 'deposits.payment_system')
@@ -53,6 +65,7 @@ class DepositsController extends Controller
                 'deposits.*', 
                 'deposits__plans.percent', 
                 'deposits__plans.accruals', 
+                'deposits__plans.title as title_plan', 
                 'payment__systems.icon', 
                 'payment__systems.currency',
                 'payment__systems.title',
@@ -74,7 +87,7 @@ class DepositsController extends Controller
             
         }
         // dd($deposits);
-        return view('deposits::index')->with(['deposits'=>$deposits]);
+        return view('deposits::'.$view)->with(compact('deposits', 'view'));
     }
 
     public function history($deposit, $user){

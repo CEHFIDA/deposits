@@ -12,6 +12,16 @@
     <div class="row">
         <!-- Column -->
         <div class="col-12">
+            <div class="clearfix">
+                <h4 class="card-title pull-left">@yield('pageTitle')</h4>
+                <div class="pull-right">
+                    @if($view == 'index')
+                        <a href="{{route('AdminDeposits', ['view' => 'table'])}}"><i class="mdi mdi-table-large"></i></a>
+                    @else
+                        <a href="{{route('AdminDeposits', ['view' => 'index'])}}"><i class="mdi mdi-apps"></i></a>
+                    @endif
+                </div>                 
+            </div>   
             <!-- Row -->
             <div class="row">
                 @if(count($deposits) > 0)
